@@ -7,7 +7,8 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 
-RUN npm install --production
+RUN npm ci --omit=dev --ignore-scripts
+RUN npm install --production --ignore-scripts
 
 COPY . .
 
