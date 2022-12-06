@@ -37,7 +37,7 @@ jobs:
       - name: Setup ENV
         run: |
           GIT_HASH=$(git rev-parse --short "$GITHUB_SHA")
-          IMAGE_NAME=ecse437.azurecr.io
+          IMAGE_NAME=ecse437.azurecr.io/ecse437
           echo "IMAGE_TAG_NAME_SERVER=$IMAGE_NAME:${GIT_HASH}" >> $GITHUB_ENV
 
       - name: Install Docker Compose CLI
