@@ -34,6 +34,12 @@ jobs:
           npm test a
         working-directory: .
 
+      - name: Setup ENV
+        run: |
+          GIT_HASH=$(git rev-parse --short "$GITHUB_SHA")
+          IMAGE_NAME=ecse437.azurecr.io
+          echo "IMAGE_TAG_NAME_SERVER=$IMAGE_NAME:${GIT_HASH}" >> $GITHUB_ENV
+
       - name: Install Docker Compose CLI
         run: >
           curl -L https://raw.githubusercontent.com/docker/compose-cli/main/scripts/install/install_linux.sh | sh
@@ -43,15 +49,11 @@ jobs:
           username: ${{ secrets.CONTAINER_USERNAME }}
           password: ${{ secrets.CONTAINER_PASSWORD }}
 
-      - name: Setup ENV
-        run: |
-          GIT_HASH=$(git rev-parse --short "$GITHUB_SHA")
-          IMAGE_NAME=ecse437.azurecr.io
-          echo "IMAGE_TAG_NAME_SERVER=$IMAGE_NAME:${GIT_HASH}" >> $GITHUB_ENV
       - name: Build and Push Docker Container
         run: |
           docker build -t $IMAGE_TAG_NAME_SERVER .
           docker push $IMAGE_TAG_NAME_SERVER
+
       - name: Azure Container Registry Login
         uses: Azure/docker-login@v1
         with:
@@ -63,8 +65,3 @@ jobs:
         run: docker context create aci --subscription-id $AZURE_SUBSCRIPTION_ID --resource-group container --location useast acicontext
         env:
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-      - name: Docker Compose Push and Up
-        run: |
-          docker compose up --build -d
-          docker ps
