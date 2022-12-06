@@ -60,15 +60,3 @@ jobs:
         run: |
           docker build -t $IMAGE_TAG_NAME_SERVER .
           docker push $IMAGE_TAG_NAME_SERVER
-
-      - name: Azure Container Registry Login
-        uses: Azure/docker-login@v1
-        with:
-          username: ${{ secrets.CONTAINER_USERNAME }}
-          password: ${{ secrets.CONTAINER_PASSWORD }}
-          login-server: ecse437.azurecr.io
-
-      - name: Create ACI Context
-        run: docker context create aci --subscription-id $AZURE_SUBSCRIPTION_ID --resource-group container --location useast acicontext
-        env:
-          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
