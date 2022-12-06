@@ -25,7 +25,7 @@
  *    }
  *  }
  *
- * @type {import('moleculer').BrokerOptions}
+ * @type {import("moleculer").BrokerOptions}
  */
 module.exports = {
 	// Namespace of nodes to segment your nodes on the same network.
@@ -154,7 +154,7 @@ module.exports = {
 
 	// Enable/disable built-in metrics function. More info: https://moleculer.services/docs/0.14/metrics.html
 	metrics: {
-		enabled: true,
+		enabled: false,
 		// Available built-in reporters: "Console", "CSV", "Event", "Prometheus", "Datadog", "StatsD"
 		reporter: {
 			type: "Prometheus",
